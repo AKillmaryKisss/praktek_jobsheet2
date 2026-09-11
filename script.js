@@ -129,3 +129,146 @@ console.log(allTagsFlat);
 // Latihan 4.2
 const allComments = productsNested.flatMap(p => p.reviews.map(r => r.comment));
 console.log(allComments);
+
+// BAGIAN 5 —  Map, Filter, Reduce dalam Konteks Nyata
+
+const titles = products.map(p => p.title);
+const expensiveProducts = products.filter(p => p.price > 500);
+const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+// Latihan 5.1
+function averagePriceByCategory(products, category) {
+  const prices = products
+    .filter(p => p.category === category)
+    .map(p => p.price);
+  return prices.reduce((a, b) => a + b, 0) / prices.length;
+}
+console.log(averagePriceByCategory(products, "laptops"));
+// Latihan 5.2
+function getStatistics(products) {
+  const prices = products.map(p => p.price);
+  const ratings = products.map(p => p.rating);
+
+  return {
+    totalProducts: products.length,
+    averagePrice: prices.reduce((a, b) => a + b, 0) / prices.length,
+    highestPrice: Math.max(...prices),
+    lowestPrice: Math.min(...prices),
+    totalStock: products.reduce((sum, p) => sum + p.stock, 0),
+    averageRating: ratings.reduce((a, b) => a + b, 0) / ratings.length
+  };
+}
+console.log(getStatistics(products));
+
+// BAGIAN 6 — Searching (Linear Search)
+
+function linearSearch(array, target) {
+for (let i = 0; i < array.length; i++) {
+if (array[i] === target) return i;
+}
+return -1;
+}
+// Latihan 6.1
+function linearSearch(array, target) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === target) return i;
+  }
+  return -1;
+}
+console.log(linearSearch([10, 20, 30, 40], 30));
+console.log(linearSearch([10, 20, 30, 40], 99));
+// Latihan 6.2
+function linearSearchProductById(products, id) {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].id === id) return products[i];
+  }
+  return -1;
+}
+console.log(linearSearchProductById(products, 2));
+console.log(linearSearchProductById(products, 99));
+
+// BAGIAN 7 — Binary Search
+
+function binarySearch(arr, target) {
+let left = 0;
+let right = arr.length - 1;
+while (left <= right) {
+const mid = Math.floor((left + right) / 2);
+// bandingkan arr[mid] dengan target
+// jika sama, return mid
+// jika arr[mid] lebih kecil dari target, geser left
+// jika arr[mid] lebih besar dari target, geser right
+}
+return -1;
+}
+// Latihan 7.1
+function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return mid;
+    if (arr[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return -1;
+}
+console.log(binarySearch([10, 20, 30, 40, 50], 40));
+console.log(binarySearch([10, 20, 30, 40, 50], 99));
+// Latihan 7.2
+function binarySearchByPrice(sortedProducts, targetPrice) {
+  let left = 0;
+  let right = sortedProducts.length - 1;
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    if (sortedProducts[mid].price === targetPrice) return sortedProducts[mid];
+    if (sortedProducts[mid].price < targetPrice) left = mid + 1;
+    else right = mid - 1;
+  }
+  return -1;
+}
+
+const sortedByPrice = [...products].sort((a, b) => a.price - b.price);
+console.log(sortedByPrice);
+console.log(binarySearchByPrice(sortedByPrice, 800));
+
+// BAGIAN 8 — Sorting
+
+/*const numbers = [5, 3, 8, 1];
+numbers.sort((a, b) => a - b); // ascending
+numbers.sort((a, b) => b - a); // descending
+products.sort((a, b) => a.price - b.price); // custom comparator*/
+// Latihan 8.1
+function bubbleSort(numbers) {
+  const arr = [...numbers];
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      }
+    }
+  }
+  return arr;
+}
+
+const numbers = [5, 3, 8, 1];
+console.log(bubbleSort(numbers));
+console.log(numbers);
+// Latihan 8.2
+function sortProducts(products, sortBy) {
+  const arr = [...products];
+  switch (sortBy) {
+    case "price-asc":
+      return arr.sort((a, b) => a.price - b.price);
+    case "price-desc":
+      return arr.sort((a, b) => b.price - a.price);
+    case "rating":
+      return arr.sort((a, b) => b.rating - a.rating);
+    case "title":
+      return arr.sort((a, b) => a.title.localeCompare(b.title));
+    default:
+      return arr;
+  }
+}
+
+console.log(sortProducts(products, "price-asc"));
+console.log(sortProducts(products, "title"));
