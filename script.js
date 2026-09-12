@@ -5,6 +5,7 @@ function calculateDiscountedPrice(price, discountPercent) {
   return price - (price * discountPercent) / 100;
 }
 console.log(calculateDiscountedPrice(1000, 10));
+
 // Latihan 1.2
 const cart = [
   { title: "Laptop", price: 1000, discountPercent: 10 },
@@ -23,22 +24,27 @@ console.log(applyDiscounts(cart));
 
 // BAGIAN 2 — Data Representation dan Array of Objects
 
+// Catatan: dataset ini sudah ditambah "rating" & "tags"
+// karena dipakai lagi di Bagian 5 (rating) dan Bagian 10-11 (tags)
 const products = [
-  { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5 },
-  { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15 },
-  { id: 3, title: "Headphones", price: 100, category: "audio", stock: 3 }
+  { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5, rating: 4.5, tags: ["computer", "office"] },
+  { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15, rating: 4.2, tags: ["mobile", "electronics"] },
+  { id: 3, title: "Headphones", price: 100, category: "audio", stock: 3, rating: 4.0, tags: ["electronics", "music"] }
 ];
+
 // Latihan 2.1
 function findProductById(products, id) {
   return products.find(p => p.id === id);
 }
 console.log(findProductById(products, 2));
 console.log(findProductById(products, 99));
+
 // Latihan 2.2
 function lowStockProducts(products) {
   return products.filter(p => p.stock < 10);
 }
 console.log(lowStockProducts(products));
+
 // Latihan 2.3
 function updateStock(products, id, newStock) {
   return products.map(p => (p.id === id ? { ...p, stock: newStock } : p));
@@ -69,18 +75,22 @@ const productsNested = [
     ]
   }
 ];
+
 // Latihan 3.1
 console.log(productsNested.map(p => p.tags));
+
 // Latihan 3.2
 function findProductsByTag(products, tag) {
   return products.filter(p => p.tags.includes(tag));
 }
 console.log(findProductsByTag(productsNested, "electronics"));
+
 // Latihan 3.3
 function reviewCounts(products) {
   return products.map(p => ({ id: p.id, title: p.title, totalReviews: p.reviews.length }));
 }
 console.log(reviewCounts(productsNested));
+
 // Latihan 3.4
 function fiveStarReviews(products) {
   const result = [];
@@ -92,6 +102,7 @@ function fiveStarReviews(products) {
   return result;
 }
 console.log(fiveStarReviews(productsNested));
+
 // Latihan 3.5
 function calculateAverageRating(product) {
   const total = product.reviews.reduce((sum, r) => sum + r.rating, 0);
@@ -99,11 +110,13 @@ function calculateAverageRating(product) {
 }
 console.log(calculateAverageRating(productsNested[0]));
 console.log(calculateAverageRating(productsNested[1]));
+
 // Latihan 3.6
 function mostReviewedProduct(products) {
   return products.reduce((max, p) => (p.reviews.length > max.reviews.length ? p : max));
 }
 console.log(mostReviewedProduct(productsNested).title);
+
 // Latihan 3.7
 function allReviewRatings(products) {
   const result = [];
@@ -121,20 +134,22 @@ const tags = [
   ["electronics"],
   ["gaming", "computer"]
 ];
-
 console.log(tags.flat());
+
 // Latihan 4.1
 const allTagsFlat = productsNested.flatMap(p => p.tags);
 console.log(allTagsFlat);
+
 // Latihan 4.2
 const allComments = productsNested.flatMap(p => p.reviews.map(r => r.comment));
 console.log(allComments);
 
-// BAGIAN 5 —  Map, Filter, Reduce dalam Konteks Nyata
+// BAGIAN 5 — Map, Filter, Reduce dalam Konteks Nyata
 
 const titles = products.map(p => p.title);
 const expensiveProducts = products.filter(p => p.price > 500);
 const totalStock = products.reduce((sum, p) => sum + p.stock, 0);
+
 // Latihan 5.1
 function averagePriceByCategory(products, category) {
   const prices = products
@@ -143,6 +158,7 @@ function averagePriceByCategory(products, category) {
   return prices.reduce((a, b) => a + b, 0) / prices.length;
 }
 console.log(averagePriceByCategory(products, "laptops"));
+
 // Latihan 5.2
 function getStatistics(products) {
   const prices = products.map(p => p.price);
@@ -161,12 +177,6 @@ console.log(getStatistics(products));
 
 // BAGIAN 6 — Searching (Linear Search)
 
-function linearSearch(array, target) {
-for (let i = 0; i < array.length; i++) {
-if (array[i] === target) return i;
-}
-return -1;
-}
 // Latihan 6.1
 function linearSearch(array, target) {
   for (let i = 0; i < array.length; i++) {
@@ -176,6 +186,7 @@ function linearSearch(array, target) {
 }
 console.log(linearSearch([10, 20, 30, 40], 30));
 console.log(linearSearch([10, 20, 30, 40], 99));
+
 // Latihan 6.2
 function linearSearchProductById(products, id) {
   for (let i = 0; i < products.length; i++) {
@@ -188,18 +199,6 @@ console.log(linearSearchProductById(products, 99));
 
 // BAGIAN 7 — Binary Search
 
-function binarySearch(arr, target) {
-let left = 0;
-let right = arr.length - 1;
-while (left <= right) {
-const mid = Math.floor((left + right) / 2);
-// bandingkan arr[mid] dengan target
-// jika sama, return mid
-// jika arr[mid] lebih kecil dari target, geser left
-// jika arr[mid] lebih besar dari target, geser right
-}
-return -1;
-}
 // Latihan 7.1
 function binarySearch(arr, target) {
   let left = 0;
@@ -214,6 +213,7 @@ function binarySearch(arr, target) {
 }
 console.log(binarySearch([10, 20, 30, 40, 50], 40));
 console.log(binarySearch([10, 20, 30, 40, 50], 99));
+
 // Latihan 7.2
 function binarySearchByPrice(sortedProducts, targetPrice) {
   let left = 0;
@@ -233,10 +233,6 @@ console.log(binarySearchByPrice(sortedByPrice, 800));
 
 // BAGIAN 8 — Sorting
 
-/*const numbers = [5, 3, 8, 1];
-numbers.sort((a, b) => a - b); // ascending
-numbers.sort((a, b) => b - a); // descending
-products.sort((a, b) => a.price - b.price); // custom comparator*/
 // Latihan 8.1
 function bubbleSort(numbers) {
   const arr = [...numbers];
@@ -253,6 +249,7 @@ function bubbleSort(numbers) {
 const numbers = [5, 3, 8, 1];
 console.log(bubbleSort(numbers));
 console.log(numbers);
+
 // Latihan 8.2
 function sortProducts(products, sortBy) {
   const arr = [...products];
@@ -269,6 +266,131 @@ function sortProducts(products, sortBy) {
       return arr;
   }
 }
-
 console.log(sortProducts(products, "price-asc"));
 console.log(sortProducts(products, "title"));
+
+// BAGIAN 9 — Grouping dan Aggregation
+
+// Latihan 9.1
+function groupByCategory(products) {
+  return products.reduce((groups, product) => {
+    const key = product.category;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(product);
+    return groups;
+  }, {});
+}
+console.log(groupByCategory(products));
+
+// Latihan 9.2
+function categorySummary(products) {
+  const grouped = groupByCategory(products);
+  return Object.entries(grouped).map(([category, items]) => ({
+    category,
+    totalProducts: items.length
+  }));
+}
+console.log(categorySummary(products));
+console.table(categorySummary(products));
+
+// BAGIAN 10 — Frequency Counting
+
+// Latihan 10.1
+function countFrequency(array) {
+  return array.reduce((counts, item) => {
+    counts[item] = (counts[item] || 0) + 1;
+    return counts;
+  }, {});
+}
+
+const words = ["laptop", "phone", "laptop", "tablet", "phone", "laptop"];
+console.log(countFrequency(words));
+
+// Latihan 10.2
+const categoryFrequency = countFrequency(products.map(p => p.category));
+const tagsFrequency = countFrequency(products.flatMap(p => p.tags));
+const ratingFrequency = countFrequency(products.map(p => Math.round(p.rating)));
+
+console.log(categoryFrequency);
+console.log(tagsFrequency);
+console.log(ratingFrequency);
+
+// BAGIAN 11 — Set
+
+// Latihan 11.1
+const uniqueCategories = [...new Set(products.map(p => p.category))];
+const uniqueTags = [...new Set(products.flatMap(p => p.tags))];
+
+console.log(uniqueCategories);
+console.log(uniqueTags);
+
+// BAGIAN 12 — Map (Struktur Data)
+
+// Latihan 12.1
+function buildProductLookup(products) {
+  const map = new Map();
+  for (const product of products) {
+    map.set(product.id, product);
+  }
+  return map;
+}
+
+const productLookup = buildProductLookup(products);
+console.log(productLookup);
+console.log(productLookup.get(2));
+console.log(productLookup.get(99));
+
+// BAGIAN 13 — Stack (LIFO)
+
+// Latihan 13.1
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+  push(item) {
+    this.items.push(item);
+  }
+  pop() {
+    return this.items.pop();
+  }
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
+const stack = new Stack();
+stack.push("laptop");
+stack.push("phone");
+stack.push("tablet");
+console.log(stack.peek());
+console.log(stack.pop());
+console.log(stack.items);
+console.log(stack.isEmpty());
+
+// Latihan 13.2
+const searchHistory = new Stack();
+
+function search(keyword) {
+  searchHistory.push(keyword);
+  console.log(`Mencari: ${keyword}`);
+}
+
+function undoSearch() {
+  if (searchHistory.isEmpty()) {
+    console.log("Tidak ada riwayat pencarian");
+    return undefined;
+  }
+  searchHistory.pop();
+  const previous = searchHistory.peek();
+  console.log(`Undo. Kembali ke: ${previous ?? "(kosong)"}`);
+  return previous;
+}
+
+search("laptop");
+search("phone");
+search("tablet");
+undoSearch();
+undoSearch();
