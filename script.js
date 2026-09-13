@@ -394,3 +394,120 @@ search("phone");
 search("tablet");
 undoSearch();
 undoSearch();
+
+// BAGIAN 14 — Queue (FIFO)
+
+// Latihan 14.1
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+  enqueue(item) {
+    this.items.push(item);
+  }
+  dequeue() {
+    return this.items.shift();
+  }
+  peek() {
+    return this.items[0];
+  }
+  isEmpty() {
+    return this.items.length === 0;
+  }
+}
+
+const requestQueue = new Queue();
+requestQueue.enqueue("request A");
+requestQueue.enqueue("request B");
+requestQueue.enqueue("request C");
+console.log(requestQueue.peek());     // lihat paling depan
+console.log(requestQueue.dequeue());  // proses & keluarkan paling depan
+console.log(requestQueue.items);      // sisa antrean
+
+// Bagian 15 — Recursion
+
+// Latihan 15.1
+const categories = [
+  {
+    name: "Electronics",
+    children: [
+      { name: "Laptop", children: [] },
+      { name: "Phone", children: [] }
+    ]
+  },
+  {
+    name: "Fashion",
+    children: [
+      {
+        name: "Men",
+        children: [
+          { name: "Shirt", children: [] }
+        ]
+      }
+    ]
+  }
+];
+
+function printCategories(categories, depth = 0) {
+  for (const category of categories) {
+    console.log("  ".repeat(depth) + category.name);
+    if (category.children.length > 0) {
+      printCategories(category.children, depth + 1);
+    }
+  }
+}
+
+printCategories(categories);
+
+// Bagian 16 - Algorithm Complexity (Big-O secara Praktis)
+
+// Latihan 16.1
+function linearSearchCountSteps(array, target) {
+  let steps = 0;
+  for (let i = 0; i < array.length; i++) {
+    steps++;
+    if (array[i] === target) return { index: i, steps };
+  }
+  return { index: -1, steps };
+}
+
+function binarySearchCountSteps(arr, target) {
+  let steps = 0;
+  let left = 0;
+  let right = arr.length - 1;
+  while (left <= right) {
+    steps++;
+    const mid = Math.floor((left + right) / 2);
+    if (arr[mid] === target) return { index: mid, steps };
+    if (arr[mid] < target) left = mid + 1;
+    else right = mid - 1;
+  }
+  return { index: -1, steps };
+}
+
+const bigArray = [];
+for (let i = 1; i <= 10000; i++) bigArray.push(i);
+
+console.log(linearSearchCountSteps(bigArray, 10000));
+console.log(binarySearchCountSteps(bigArray, 10000));
+
+// Bagian 17 - DOM Manipulation
+
+function renderProducts(products) {
+  const container = document.querySelector("#product-list");
+  container.innerHTML = "";
+  for (const product of products) {
+    const card = document.createElement("div");
+    card.classList.add("product-card");
+    card.innerHTML = `
+      <h3>${product.title}</h3>
+      <p>${product.category}</p>
+      <p>Harga: $${product.price}</p>
+      <p>Rating: ${product.rating}</p>
+      <p>Stock: ${product.stock}</p>
+    `;
+    container.append(card);
+  }
+}
+
+renderProducts(products);
