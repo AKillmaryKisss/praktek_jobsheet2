@@ -6,8 +6,24 @@
 </head>
 <body>
   <h1>Product Explorer</h1>
+
+  <input type="text" id="search-input" placeholder="Cari produk..." />
+  <select id="category-select">
+    <option value="all">Semua Kategori</option>
+    <option value="laptops">Laptops</option>
+    <option value="phones">Phones</option>
+    <option value="audio">Audio</option>
+  </select>
+  <select id="sort-select">
+    <option value="default">Default</option>
+    <option value="price-asc">Harga Termurah</option>
+    <option value="price-desc">Harga Termahal</option>
+    <option value="rating">Rating Tertinggi</option>
+    <option value="title">Nama (A-Z)</option>
+  </select>
+
   <div id="product-list"></div>
 
-  <script src="script.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

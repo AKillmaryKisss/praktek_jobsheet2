@@ -511,3 +511,82 @@ function renderProducts(products) {
 }
 
 renderProducts(products);
+
+// Bagian 18 - State Management Sederhana (Tanpa Library)
+
+const state = {
+  products: products, // dataset dari Bagian 2
+  search: "",
+  category: "all",
+  sortBy: "default",
+  favorites: [],
+  status: "idle"
+};
+
+function render() {
+  let result = state.products;
+
+  // filter berdasarkan search (pakai partialSearch, case-insensitive)
+  if (state.search) {
+    const keyword = state.search.toLowerCase();
+    result = result.filter(p => p.title.toLowerCase().includes(keyword));
+  }
+
+  // filter berdasarkan category
+  if (state.category !== "all") {
+    result = result.filter(p => p.category === state.category);
+  }
+
+  // sort (pakai sortProducts dari Bagian 8.2)
+  result = sortProducts(result, state.sortBy);
+
+  renderProducts(result);
+}
+
+render(); // panggil pertama kali untuk render awal
+
+// BAGIAN 19 - Event Handling
+
+const searchInput = document.querySelector("#search-input");
+searchInput.addEventListener("input", (e) => {
+  state.search = e.target.value;
+  render();
+});
+
+const categorySelect = document.querySelector("#category-select");
+categorySelect.addEventListener("change", (e) => {
+  state.category = e.target.value;
+  render();
+});
+
+const sortSelect = document.querySelector("#sort-select");
+sortSelect.addEventListener("change", (e) => {
+  state.sortBy = e.target.value;
+  render();
+});
+
+// BAGIAN 20 — Modern JavaScript (ES6+)
+
+// Refactor getStatistics dengan destructuring
+function getStatisticsV2(products) {
+  const prices = products.map(({ price }) => price);
+  const ratings = products.map(({ rating }) => rating);
+  const stocks = products.map(({ stock }) => stock);
+
+  const totalProducts = products.length;
+  const averagePrice = prices.reduce((a, b) => a + b, 0) / prices.length;
+  const highestPrice = Math.max(...prices);
+  const lowestPrice = Math.min(...prices);
+  const totalStock = stocks.reduce((a, b) => a + b, 0);
+  const averageRating = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+
+  return { totalProducts, averagePrice, highestPrice, lowestPrice, totalStock, averageRating };
+}
+console.log(getStatisticsV2(products));
+
+// Contoh optional chaining + nullish coalescing
+function getProductWidth(product) {
+  return product.dimensions?.width ?? "Tidak diketahui";
+}
+console.log(getProductWidth({ title: "Contoh A", dimensions: { width: 30 } }));
+console.log(getProductWidth({ title: "Contoh B" })); // tidak ada dimensions
